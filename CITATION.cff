@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+title: Full Linked System
+version: 0.1.0
+date-released: 2026-10-27
+authors:
+  - family-names: Brisson
+    given-names: Jean-François
+    orcid: https://orcid.org/0009-0000-9778-5374
+    affiliation: Spark AI NLP, Fredericton, New Brunswick, Canada
+license: AGPL-3.0-only
+repository-code: https://github.com/sparkainlp-x/full-linked-system
+abstract: >-
+  A single stdlib-only chain linking frequency gating,
+  nervous decision, crystallize injection, heart pacing,
+  propulsion, sensor readout, sonification, and a
+  hash-chained ledger, with a lattice battery in parallel.
+  Synthetic toy only.
+keywords:
+  - holographic-memory
+  - refusing-gate
+  - linked-system
+  - synthetic-toy

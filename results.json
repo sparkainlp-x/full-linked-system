@@ -1,0 +1,59 @@
+{
+  "exp_chain": {
+    "tau": 0.243,
+    "youden_j": 0.99,
+    "clean_pain_7hz": {
+      "decision": "accept",
+      "response": "withdraw",
+      "drive": 1,
+      "displacement": 19.63,
+      "sensor_k_est": 1,
+      "action": "move",
+      "ledger_ok": true
+    },
+    "clean_pain_0_25hz": {
+      "decision": "reject",
+      "attempts": 20,
+      "displacement": 0.0,
+      "action": "hold"
+    },
+    "random_7hz": {
+      "decision": "reject",
+      "displacement": 0.0,
+      "action": "hold"
+    },
+    "clean_grasp_7hz": {
+      "decision": "accept",
+      "response": "grasp",
+      "drive": -1,
+      "displacement": -19.63,
+      "sensor_k_est": -1
+    },
+    "noisy_sigma_0_30": {
+      "stock": 19,
+      "injected": 21,
+      "net_mean": -0.277
+    },
+    "routing": {
+      "reflex_median": 53.52,
+      "central_median": 90.65,
+      "lesion_reflex_median": Infinity
+    },
+    "listen": {
+      "samples": 200,
+      "wav_bytes": 16044
+    },
+    "tau_unchanged": true,
+    "patterns_still_4": true
+  },
+  "exp_lattice_battery": {
+    "seam_shift": 0.131,
+    "row_slip": 0.043,
+    "catastrophe_front": 0.42,
+    "bar_F6": {
+      "mean_gap": 0.198,
+      "n_ge_0.10": 2,
+      "pass": true
+    }
+  }
+}
