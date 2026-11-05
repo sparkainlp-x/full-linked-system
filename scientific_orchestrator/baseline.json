@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "protocol": {
+    "dev": [17], "calibration": [117], "heldout": [217],
+    "primary_metric": "paired_error_difference", "practical_threshold": 0.1,
+    "baseline": "rms", "stopping": "fixed_budget",
+    "interpretation": "exploratory", "run_split": "dev"
+  },
+  "budgets": {
+    "max_runs": 2, "workers": 1, "wall_seconds": 20,
+    "cpu_seconds": 10, "memory_mb": 256, "per_run_seconds": 5
+  },
+  "nodes": [
+    {
+      "id": "pulse", "adapter": "signal_generator", "parents": [],
+      "params": {
+        "samples": 64, "sample_rate": 64, "amplitude": 1,
+        "noise_sigma": 0, "stress": "clean", "missing_probability": 0
+      },
+      "contract": {
+        "data_type": "float64_nullable", "shape": [64], "units": "amplitude",
+        "coordinates": ["time"], "sample_rate": 64, "normalization": "none",
+        "time": "seconds from zero", "noise": "clean", "evidence_origin": "synthetic"
+      }
+    },
+    {
+      "id": "independent-baselines", "adapter": "signal_baseline", "parents": ["pulse"],
+      "params": {"rms_threshold": 0.2, "maxabs_threshold": 0.5},
+      "input_contract": {
+        "data_type": "float64_nullable", "shape": [64], "units": "amplitude",
+        "coordinates": ["time"], "sample_rate": 64, "normalization": "none",
+        "time": "seconds from zero", "noise": "clean", "evidence_origin": "synthetic"
+      },
+      "contract": {
+        "data_type": "float64", "shape": [2], "units": "amplitude",
+        "coordinates": ["rms", "maxabs"], "sample_rate": null,
+        "normalization": "none", "time": "summary", "noise": "inherited",
+        "evidence_origin": "synthetic"
+      }
+    }
+  ]
+}

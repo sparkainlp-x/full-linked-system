@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "protocol": {
+    "dev": [7], "calibration": [107], "heldout": [207],
+    "primary_metric": "paired_error_difference", "practical_threshold": 0.1,
+    "baseline": "rms", "stopping": "fixed_budget",
+    "interpretation": "exploratory", "run_split": "dev"
+  },
+  "budgets": {
+    "max_runs": 1, "workers": 1, "wall_seconds": 20,
+    "cpu_seconds": 10, "memory_mb": 256, "per_run_seconds": 5
+  },
+  "nodes": [
+    {
+      "id": "offline-legacy-regression", "adapter": "legacy_chain", "parents": [],
+      "params": {"probe": "null", "noise_sigma": 0.1, "frequency": 7, "steps": 20},
+      "contract": {
+        "data_type": "record", "shape": [1], "units": "dimensionless",
+        "coordinates": ["run"], "sample_rate": null, "normalization": "legacy",
+        "time": "ticks", "noise": "legacy", "evidence_origin": "synthetic"
+      }
+    }
+  ]
+}

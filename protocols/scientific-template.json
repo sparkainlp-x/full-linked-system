@@ -1,0 +1,62 @@
+{
+  "template_schema_version": 1,
+  "executable": false,
+  "purpose": "Scientific review template; not an executable orchestrator config",
+  "protocol_id": "REPLACE_BEFORE_NEW_DATA",
+  "evidence_origin": "synthetic",
+  "interpretation": "exploratory",
+  "prior_data_inspected": true,
+  "hash_meaning": "consistency only, not independently timestamped preregistration",
+  "independent_unit": "seed",
+  "partitions": {
+    "development": [101, 102],
+    "calibration": [201, 202],
+    "held_out": [301, 302],
+    "dataset_groups": null
+  },
+  "primary_metric": {
+    "name": "REPLACE_WITH_DOMAIN_METRIC",
+    "direction": "lower",
+    "practical_effect_threshold": null,
+    "locked_before_new_data": false
+  },
+  "baseline": "REPLACE_WITH_EXECUTABLE_BASELINE",
+  "pairing": "same independent seeds and dataset groups; justify null exchangeability",
+  "budgets": {
+    "max_runs": 12,
+    "wall_seconds": 60,
+    "cpu_seconds": 60,
+    "memory_mb": 256,
+    "workers": 1,
+    "sample_count_per_seed": 128,
+    "full_adaptive_retry_cost_included": true
+  },
+  "stopping_rule": "fixed registered run count or budget exhaustion; report every failure",
+  "held_out_policy": "not executed by smoke; do not unlock after winner selection or reuse after inspection",
+  "confirmatory_family": {
+    "members": [],
+    "correction": "Holm; failed/blocked members remain in family with conservative p=1",
+    "confirmatory_execution_implemented": false
+  },
+  "controls": [
+    "baseline-only",
+    "component-removal",
+    "shuffled or null",
+    "noise",
+    "drift",
+    "missing-channel",
+    "local versus shared disturbance where applicable"
+  ],
+  "coupling": {
+    "enabled": false,
+    "evidence": "any future synthetic coupling is an assumption",
+    "requires": "documented validated contracts and tested explicit transforms; matched full compute budget comparison"
+  },
+  "reports": {
+    "all_registered_configurations": true,
+    "failures_timeouts_negatives_exclusions": true,
+    "sample_counts_and_uncertainty_by_independent_unit": true,
+    "no_unrelated_success_score": true,
+    "upstream_reported_separate_from_executed": true
+  }
+}

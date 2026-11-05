@@ -1,0 +1,26 @@
+name: Bounded offline scientific smoke
+on:
+  pull_request:
+  push:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - name: Legacy, analytic, registry and orchestration tests (stdlib only)
+        run: |
+          python3 -m unittest tests test_legacy_regression test_benchmark_analysis test_public_registry test_public_residual_adapter -v
+          python3 -m unittest discover -s scientific_orchestrator -p 'test_*.py' -v
+      - name: Bounded offline plan, execution and integrity check
+        run: |
+          python3 -m scientific_orchestrator plan scientific_orchestrator/smoke.json
+          python3 -m scientific_orchestrator run scientific_orchestrator/smoke.json --output "$RUNNER_TEMP/scientific-smoke"
+          python3 -m scientific_orchestrator verify "$RUNNER_TEMP/scientific-smoke"
+          python3 public_registry.py public_sources.json

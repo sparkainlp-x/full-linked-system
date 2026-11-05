@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:full-linked-system:experiment:v1",
+  "title": "Bounded local experiment v1",
+  "description": "Documentation schema. Runtime validate_config additionally checks adapter-specific parameters, DAG edges, partitions and budgets. No automatic network schema resolution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "protocol", "budgets", "nodes"],
+  "properties": {
+    "version": {"const": 1},
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dev", "calibration", "heldout", "primary_metric", "practical_threshold", "baseline", "stopping", "interpretation", "run_split"],
+      "properties": {
+        "dev": {"$ref": "#/$defs/seeds"},
+        "calibration": {"$ref": "#/$defs/seeds"},
+        "heldout": {"$ref": "#/$defs/seeds"},
+        "primary_metric": {"const": "paired_error_difference"},
+        "practical_threshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "baseline": {"const": "rms"},
+        "stopping": {"const": "fixed_budget"},
+        "interpretation": {"const": "exploratory"},
+        "run_split": {"enum": ["dev", "calibration", "heldout"], "description": "Heldout execution is not implemented. Smoke executes dev only."}
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_runs", "workers", "wall_seconds", "cpu_seconds", "memory_mb", "per_run_seconds"],
+      "properties": {
+        "max_runs": {"type": "integer", "minimum": 1, "maximum": 128},
+        "workers": {"const": 1},
+        "wall_seconds": {"type": "number", "minimum": 0.01, "maximum": 300},
+        "cpu_seconds": {"type": "integer", "minimum": 1, "maximum": 240},
+        "memory_mb": {"type": "integer", "minimum": 1, "maximum": 1024},
+        "per_run_seconds": {"type": "number", "minimum": 0.01, "maximum": 60}
+      }
+    },
+    "nodes": {
+      "type": "array", "minItems": 1, "maxItems": 64,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "adapter", "parents", "contract", "params"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 200},
+          "adapter": {"enum": ["signal_generator", "signal_baseline", "legacy_chain", "oes32_residual", "public_adapter", "dimension_transform"]},
+          "parents": {"type": "array", "maxItems": 1, "items": {"type": "string", "minLength": 1}},
+          "params": {"type": "object", "description": "Strict adapter-specific validation implemented in validate_config."},
+          "contract": {"$ref": "#/$defs/contract"},
+          "input_contract": {"$ref": "#/$defs/contract"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "seeds": {"type": "array", "minItems": 1, "maxItems": 128, "uniqueItems": true, "items": {"type": "integer", "minimum": 0, "maximum": 4294967295}},
+    "contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["data_type", "shape", "units", "coordinates", "sample_rate", "normalization", "time", "noise", "evidence_origin"],
+      "properties": {
+        "data_type": {"enum": ["float64", "float64_nullable", "record"]},
+        "shape": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "integer", "minimum": 1, "maximum": 4096}},
+        "units": {"type": "string", "minLength": 1},
+        "coordinates": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "sample_rate": {"anyOf": [{"type": "null"}, {"type": "number", "minimum": 0.001, "maximum": 1000000}]},
+        "normalization": {"type": "string", "minLength": 1},
+        "time": {"type": "string", "minLength": 1},
+        "noise": {"type": "string", "minLength": 1},
+        "evidence_origin": {"const": "synthetic", "description": "Measured dataset adapters are not implemented in this slice."}
+      }
+    }
+  }
+}
