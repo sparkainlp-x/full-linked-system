@@ -113,3 +113,13 @@ work; this source citation does not indicate package coauthorship. Brisson
 built the package’s new code with AI assistance. Vendored and adapted
 components retain their upstream attributions and license terms, as
 documented in `DESIGN.md`.
+
+## Bounded scientific orchestrator (review-only first version)
+
+The separate `scientific_orchestrator` package adds offline, budgeted
+experiments without changing this demo, `PREREG.md`, or archived results.
+See [ORCHESTRATOR.rst](ORCHESTRATOR.rst) for architecture, protocols, claim
+limitations, integration coverage and deferred experiments. The public
+inventory is `public_sources.json`; unknown APIs and missing adapters are
+explicitly not implemented, not successful mocks. No unified physical
+theory, validated device, release or merge is claimed.

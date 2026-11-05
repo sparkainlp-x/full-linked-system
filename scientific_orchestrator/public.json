@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "protocol": {
+    "dev": [31], "calibration": [131], "heldout": [231],
+    "primary_metric": "paired_error_difference", "practical_threshold": 0.1,
+    "baseline": "rms", "stopping": "fixed_budget",
+    "interpretation": "exploratory", "run_split": "dev"
+  },
+  "budgets": {
+    "max_runs": 1, "workers": 1, "wall_seconds": 20,
+    "cpu_seconds": 10, "memory_mb": 256, "per_run_seconds": 5
+  },
+  "nodes": [
+    {
+      "id": "independent-residual-track", "adapter": "oes32_residual", "parents": [],
+      "params": {
+        "source_directory": "/tmp/oes32-prepared",
+        "reference": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        "observed": [0.25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        "tolerance": 0.25
+      },
+      "contract": {
+        "data_type": "float64", "shape": [32], "units": "dimensionless",
+        "coordinates": ["component index"], "sample_rate": null,
+        "normalization": "none", "time": "static", "noise": "deterministic",
+        "evidence_origin": "synthetic"
+      }
+    }
+  ]
+}
